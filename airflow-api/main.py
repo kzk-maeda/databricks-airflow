@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import base64
 import boto3
@@ -29,7 +30,18 @@ if __name__ == '__main__':
     mwaa_auth_token = 'Bearer ' + mwaa_cli_token['CliToken']
     mwaa_webserver_hostname = 'https://{0}/aws_mwaa/cli'.format(mwaa_cli_token['WebServerHostname'])
     # ref: https://airflow.apache.org/docs/apache-airflow/2.2.2/cli-and-env-variables-ref.html#list_repeat2
-    raw_data = "dags list -o json"
+    arg = sys.argv[1]
+    if arg == 'list':
+        raw_data = "dags list -o json"
+    elif arg == 'list-runs':
+        raw_data = 'dags list-runs -o json'
+    elif arg == 'trigger':
+        raw_data = f"dags trigger {sys.argv[2]}"
+    elif arg == 'state':
+        raw_data = f"dags state {sys.argv[2]} {sys.argv[3]}"
+    else:
+        print('invalid arg')
+        raise
 
     mwaa_response = requests.post(
         mwaa_webserver_hostname,
