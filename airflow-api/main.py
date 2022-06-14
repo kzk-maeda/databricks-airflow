@@ -24,7 +24,7 @@ if __name__ == '__main__':
     mwaa_cli_token = client.create_cli_token(
         Name=mwaa_env_name
     )
-    print(f'MWAA_CLI_TOKEN: {mwaa_cli_token}')
+    # print(f'MWAA_CLI_TOKEN: {mwaa_cli_token}')
 
     mwaa_auth_token = 'Bearer ' + mwaa_cli_token['CliToken']
     mwaa_webserver_hostname = 'https://{0}/aws_mwaa/cli'.format(mwaa_cli_token['WebServerHostname'])
@@ -43,6 +43,6 @@ if __name__ == '__main__':
     mwaa_std_err_message = base64.b64decode(mwaa_response.json()['stderr']).decode('utf8')
     mwaa_std_out_message = base64.b64decode(mwaa_response.json()['stdout']).decode('utf8')
 
-    print(mwaa_response.status_code)
-    print(mwaa_std_err_message)
-    print(mwaa_std_out_message)
+    print(f'Status Code : {mwaa_response.status_code}')
+    print(f'Std_err : {mwaa_std_err_message}')
+    print(f'Std_out : {mwaa_std_out_message}')
